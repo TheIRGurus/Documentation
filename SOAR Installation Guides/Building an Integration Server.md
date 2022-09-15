@@ -1,4 +1,4 @@
-# Installing and Configuring Resilinet-Circuits Integration Server
+# Installing and Configuring Resilient-Circuits Integration Server
 
 ### Install CentOS within a Virtual Environment
 
