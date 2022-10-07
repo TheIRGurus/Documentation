@@ -1,4 +1,4 @@
-# Installing and Configuring Resilinet for Development
+# Installing and Configuring Resilient for Development
 <sub>Expectations/Requirements: Python 3 is already installed</sub>
 
 This guide is to be used for building development environments for using the Resilient API and creating integrations to increase automation of the platform.
