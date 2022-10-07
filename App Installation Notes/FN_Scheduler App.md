@@ -1,7 +1,7 @@
 # Setup Instructions for using FN-SCHEDULER
 The following instructions will be used to install Postgres on a CentOS/RedHat Server. This will allows us to install the FN-Scheduler app which we be installed and configured at the very end.
 
-**Table of Contents**
+**Table of Contents:**
 
    + [Installing Postgres](#installing-postgres)
    + [Configuring the DB](#configuring-the-db)
