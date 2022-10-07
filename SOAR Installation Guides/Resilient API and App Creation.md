@@ -199,9 +199,10 @@ This guide is to be used for building development environments for using the Res
 	resilient-sdk codegen -p <name_of_package> -m <message_destination> -f <list_of_functions> -w <list_of_workflows> -s "<list_of_scripts>" -r "<list_of_rules>" -a <list_of_artifactTypes> -fd <list_of_fields> -d <list_of_dataTables> -t <list_of_tasks>
 	```
 	<sub>Note: If you change any parts within the Resilient Application for the app, use the script below to reload the codegen code</sub>
-			```
-			resilient-sdk codegen -p <package_name> --reload
-			```
+	
+	```
+	resilient-sdk codegen -p <package_name> --reload
+	```
 3. Build the app from the code the generator layed out.
 	
 	><sub>IBM KB Detailing Code: https://www.ibm.com/docs/en/rsoa-and-rp/42?topic=guide-write-function-processor</sub>
@@ -237,7 +238,7 @@ This guide is to be used for building development environments for using the Res
 
 ### Documenting Your App
 
-
+More to come...
 
 
 ## Publishing and Using a Private Registry
