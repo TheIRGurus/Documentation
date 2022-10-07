@@ -5,7 +5,6 @@ This guide is to be used for building development environments for using the Res
 
 **Table of Contents**
 
-- [Installing and Configuring Resilinet for Development](#installing-and-configuring-resilinet-for-development)
   * [Building a Virtual Environment for App Development](#building-a-virtual-environment-for-app-development)
     + [Setup a Virtual Environment for Development](#setup-a-virtual-environment-for-development)
     + [Install Resilient for API and App Building](#install-resilient-for-api-and-app-building)
