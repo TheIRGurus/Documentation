@@ -3,6 +3,25 @@
 
 This guide is to be used for building development environments for using the Resilient API and creating integrations to increase automation of the platform.
 
+- [Installing and Configuring Resilinet for Development](#installing-and-configuring-resilinet-for-development)
+  * [Building a Virtual Environment for App Development](#building-a-virtual-environment-for-app-development)
+    + [Setup a Virtual Environment for Development](#setup-a-virtual-environment-for-development)
+    + [Install Resilient for API and App Building](#install-resilient-for-api-and-app-building)
+    + [Setting up Resilient_Circuits for Authorization](#setting-up-resilient_circuits-for-authorization)
+    + [Installing Docker](#installing-docker)
+  * [Using the API](#using-the-api)
+    + [Accessing API](#accessing-api)
+    + [Using finfo](#using-finfo)
+    + [Using Gadget](#using-gadget)
+  * [Developing Apps](#developing-apps)
+    + [Building the Base Code for an Integration](#building-the-base-code-for-an-integration)
+    + [Build and Run the Docker Container for your App](#build-and-run-the-docker-container-for-your-app)
+    + [Documenting Your App](#documenting-your-app)
+  * [Publishing and Using a Private Registry](#publishing-and-using-a-private-registry)
+    + [Connecting and Uploading to Registry from Docker](#connecting-and-uploading-to-registry-from-docker)
+    + [Configuring the App and AppHost for Registry Use](#configuring-the-app-and-apphost-for-registry-use)
+    + [Import the Private App into Resilient](#import-the-private-app-into-resilient)
+
 
 ## Building a Virtual Environment for App Development
 
@@ -111,31 +130,31 @@ This guide is to be used for building development environments for using the Res
 	Method 1(Preferred):
 	
 	- Import the Resilient Python Module:
-		```
+		```py
 		import resilient
 		```
 	- Parse the config file:
-		```
+		```py
 		parser = resilient.ArgumentParser(config_file=resilient.get_config_file())
 		opts = parser.parse_args()
 		```
 	- Create the Client (used to connect to Resilient):
-		```
+		```py
 		client = resilient.get_client(opts)
 		```
 	
 	Method 2:
 	
 	- Import the Resilient Python Module:
-		```
+		```py
 		import resilient
 		```
 	- Create the client (Must know org_name and Resilient_URL):
-		```
+		```py
 		client = resilient.SimpleClient(org_name="<org_name>",base_url="<url_of_server>", proxies=<None | dict_of_proxies>, verify=<False | path_of_PEM_file>)
 		```
 	- Connect using User Email and Password:
-		```
+		```py
 		client.connect('<username>','<password>')
 		```
 3. Using the Client, start browsing the API.
@@ -147,7 +166,7 @@ This guide is to be used for building development environments for using the Res
 	><sub>Documentation on Resilient Client Options: https://ibmresilient.github.io/resilient-python-api/pages/resilient/resilient.html</sub>
 	
 - Using the client, use all kinds of http options: get,put,delete,patch,post,search
-	```
+	```py
 	client.get(<uri>)
 	client.put(<uri>, <payload_dict>)
 	client.post(<uri>, <payload_dict>)
@@ -169,7 +188,7 @@ This guide is to be used for building development environments for using the Res
 
 ## Developing Apps
 
-### Building the Base Code for an Integration/App
+### Building the Base Code for an Integration
 
 1. Build the Playbook/Workflow within Resilient before moving on.
 
