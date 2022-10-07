@@ -1,5 +1,16 @@
 # Installing and Configuring Resilient-Circuits Integration Server
 
+**Table of Contents**
+
+- [Installing and Configuring Resilient-Circuits Integration Server](#installing-and-configuring-resilient-circuits-integration-server)
+    + [Install CentOS within a Virtual Environment](#install-centos-within-a-virtual-environment)
+    + [Installing Python 3](#installing-python-3)
+    + [Install Resilinet-Circuits](#install-resilinet-circuits)
+    + [Configure Resilient-Circuits for First-Use](#configure-resilient-circuits-for-first-use)
+    + [Using Keyring to Store you Secrets](#using-keyring-to-store-you-secrets)
+    + [Set Resilient-Circuits to run as a Service on Startup](#set-resilient-circuits-to-run-as-a-service-on-startup)
+
+
 ### Install CentOS within a Virtual Environment
 
 1. Install CentOS Minimal with the following Specs:
