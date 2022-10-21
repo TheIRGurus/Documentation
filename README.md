@@ -1,2 +1,2 @@
 # Documentation
-This Repository is just for documentation purposes to sharing notes on how to do certain tasks within SOAR.
+ Knowledge Base Articles designed for IBM SOAR developed by The IR Gurus. This documentation's purpose is to sharing notes on how to do certain tasks within SOAR giving guidance within your environment. 
