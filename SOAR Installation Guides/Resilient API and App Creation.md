@@ -79,9 +79,9 @@ This guide is to be used for building development environments for using the Res
 		
   - Edit app.py
   - Add the code below just under the imports at the very top:
-  
-    >os.environ["APP_CONFIG_FILE"] = r"C:\\.python_envs\\<name_of_environment>\\app.config"
-
+  ```
+    os.environ["APP_CONFIG_FILE"] = r"C:\\.python_envs\\<name_of_environment>\\app.config"
+  ```
 2. Create the app.config file needed for authentication:
     ```
     resilient-circuits config -c
