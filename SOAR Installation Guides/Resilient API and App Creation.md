@@ -94,6 +94,7 @@ This guide is to be used for building development environments for using the Res
 	- Add Authentication information
 	- Set log file location
 	- Add Resilient Cert Location OR Set cert to not be verified
+	- If using XDR Connect, set the STOMP URL and STOMP Port
 
 
 ### Installing Docker
