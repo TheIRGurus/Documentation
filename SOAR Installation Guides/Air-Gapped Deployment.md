@@ -215,7 +215,7 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
   ```bash
   sudo kubectl get pods -A
   ```
-    - if any of the pods are errored redeploy them using the command below:
+  - if any of the pods are errored redeploy them using the command below:
       ```bash
       sudo kubectl rollout restart deployments -n kube-system
       ```
