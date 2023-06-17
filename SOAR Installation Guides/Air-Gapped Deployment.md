@@ -22,7 +22,7 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
   ```bash
   sudo yum install -y docker docker-compose
   ```
-2. Enable for start on start 
+2. Enable Docker service on boot. 
   ```bash
   sudo systemctl enable docker
   ```
@@ -34,7 +34,7 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
 ---
 
 ### Establish the Required Security Files for the Registry
-1. Create a registry file structure for your docker registry environment below are the commands to create the path I will be using.
+1. Create a registry file structure for your docker registry environment. Below are the commands to create the path I will be using.
   ```bash
   mkdir -p appdata/registry/auth
   mkdir -p appdata/registry/certs
@@ -50,7 +50,7 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
   cd appdata/registry
   ```
 
-3. Create the TLS Cert and Key using OpenSSL.
+3. Create the TLS Certs and Keys using OpenSSL.
   ```bash
   openssl genrsa -out certs/ca.key 2048
   openssl req -new -x509 -days 365 -key certs/ca.key -subj "/C={Country_Code}/ST={State_Code}/L={Location}/O={Organization}/CN={Company_Name} Root CA" -out certs/ca.crt
@@ -59,14 +59,14 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
   openssl x509 -req -extfile <(printf "subjectAltName=DNS:registry.{company.domain}") -days 365 -in certs/registry.csr -CA certs/ca.crt -CAkey certs/ca.key -CAcreateserial -out certs/registry.crt
   ```
 
-4. We will now need a copy of that file in the docker certs folder. Use the command below to make a copy for docker.
+4. We will now need a copy of the `ca.crt` file in the docker certs folder. Use the command below to make a copy for docker.
   ```bash
   sudo mkdir /etc/docker/certs.d/localhost
-  sudo cp certs/registry.crt /etc/docker/certs.d/localhost/ca.crt
+  sudo cp certs/ca.crt /etc/docker/certs.d/localhost/
   sudo update-ca-trust
   ```
 
-5. Establish a credential file to basic auth into the registry.
+5. Next, establish a credential file for basic auth into the registry.
   ```bash
   sudo docker run --entrypoint htpasswd httpd:2 -Bbn {username} {password} > auth/htpasswd
   ```
@@ -123,27 +123,45 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
 
 3. Copy over the `mirror-all-images.sh` script found at the link below.
   >https://raw.githubusercontent.com/ibmresilient/resilient-community-apps/master/.scripts/mirror-containers/mirror-all-images.sh
+  ```bash
+  curl -X GET https://raw.githubusercontent.com/ibmresilient/resilient-community-apps/master/.scripts/mirror-containers/mirror-all-images.sh > mirror-all-images.sh
+  ```
 
   - IBM Security SOAR KB Article: https://www.ibm.com/docs/en/sqsp/49?topic=repository-mirroring-quayio
 
-4. Log into your registry with docker using the credentials created above.
+4. Log into your registry with Docker using the credentials created above.
   ```bash
   sudo docker login localhost --username <username>
   ```
 
-5. Run the Mirror Script IBM registry 
+5. Run the Mirror script in bash to mirror your registry with the IBM registry. 
   ```bash
   sudo bash mirror-all-images.sh localhost docker
   ```
-  - Note: Add `latest_tag` to the end of the above command to only grab the last updated container of each app.
+  - Note: While you can add `latest_tag` to the end of the above command to only grab the latest container of each app, for an air-gapped environment you will need to run the full mirror script to get the required versions of certain apps to run in the air-gapped environment.
 
-6. Once the script has finished running, you can verify that the transfer happened and is in your registry by doing the following command to see all of the available apps.
+6. Lastely, We will also need to grab the Rancher images for our registry.
+  ```bash
+  sudo docker pull rancher/mirrored-metrics-server:v0.6.2
+  sudo docker pull rancher/local-path-provisioner:v0.0.23
+  sudo docker pull rancher/mirrored-coredns-coredns:1.9.4
+
+  sudo docker tag rancher/mirrored-metrics-server:v0.6.2 localhost/rancher/mirrored-metrics-server:v0.6.2
+  sudo docker tag rancher/local-path-provisioner:v0.0.23 localhost/rancher/local-path-provisioner:v0.0.23
+  sudo docker tag rancher/mirrored-coredns-coredns:1.9.4 localhost/rancher/mirrored-coredns-coredns:1.9.4
+
+  sudo docker push localhost/rancher/mirrored-metrics-server:v0.6.2
+  sudo docker push localhost/rancher/local-path-provisioner:v0.0.23
+  sudo docker push localhost/rancher/mirrored-coredns-coredns:1.9.4
+  ```
+
+7. Once the script has finished running, you can verify that the transfer happened and is in your registry by doing the following command to see all of the available apps.
   ```bash
   curl -X GET https://localhost/v2/_catalog -u "<username>:<password>" --insecure
   ```
   >Note: The `--insecure` flag is just to not verify the TLS cert which is self-signed.
 
-7. At this point, you can move your VM to the air-gapped environment and set a static IP.
+8. At this point, you can move your VM to the air-gapped environment and set a static IP.
 
 ---
 
@@ -152,7 +170,7 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
 
 ### Configuring Kubernetes to Use the Private Registry
 
-1. Download Rancher k3s air-gapped tar image environment. 
+1. Download Rancher k3s air-gapped tar images. 
     - For version 49, you must use v1.23.6+k3s1: https://github.com/k3s-io/k3s/releases/tag/v1.23.6%2Bk3s1
 
 2. Once the tar file is on the AppHost, make the correct directory and move it to the rancher images location using the commands below.
@@ -161,7 +179,7 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
   sudo mv <k3s-airgap-images tar file> /var/lib/rancher/k3s/agent/images/
   ```
 
-3. Move the `registry.crt` and `registry.key` over to the AppHost server. Then create the registry folder and move the cert and key into the structure.
+3. Move the `registry.crt`, `registry.key`, and `ca.crt` over to the AppHost server. Then create the registry folder and move the registry cert and key into the structure.
   ```bash
   mkdir -p .registry/certs
   mv registry.* .registry/certs/
@@ -169,7 +187,7 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
 
 4. Make a copy of the cert into the trusted certificates.
   ```bash
-  sudo cp .registry/certs/registry.crt /etc/pki/ca-trust/source/anchors/
+  sudo mv ca.crt /etc/pki/ca-trust/source/anchors/
   sudo update-ca-trust extract
   ```
 
@@ -178,7 +196,7 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
   sudo vi /etc/hosts
   ```
 
-6. Add the DNS entry below updating the necessary parts:
+6. Using the template below, add the DNS entry for your registry server:
   ```
   <Registry_IP> registry.{company.domain}
   ```
@@ -189,26 +207,26 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
   sudo vi /etc/rancher/k3s/registries.yaml
   ```
 
-8. Add the following code to the registry file.
+8. Add the following code to the registry file, changing your domain and credentials.
   ```yaml
   mirrors:
     docker.io:
       endpoint:
-        - "<host name/ip>[:port]"
+        - "registry.{company.domain}"
     quay.io:
       endpoint:
-        - "<host name/ip>[:port]"
+        - "registry.{company.domain}"
   configs:
-    "<host name/ip>":
+    "registry.{company.domain}":
       auth:
         username: <username>
         password: <username>
       tls:
-        cert_file: <path_to_cert_file>
-        key_file: <path_to_key_file>
+        cert_file: /home/appadmin/.registry/certs/registry.crt
+        key_file: /home/appadmin/.registry/certs/registry.key
   ```
 
-9. Add the default path to the registry system by create an interface below in the `/etc/sysconfig/network-scripts/` folder. This will require you to know which interface you are applying the route too.
+9. Determine which interface you are using to establish a default path to the network the registry and apphost are on. Then using the interface name and the following path, `/etc/sysconfig/network-scripts/`, create a route file to house your default route.
   >Example: if the interface is `eth0`, you will create a the file `route-eth0` using the command below.
   ```bash
   sudo vi /etc/sysconfig/network-scripts/route-eth0
