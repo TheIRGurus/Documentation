@@ -280,3 +280,5 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
   ```
 
 5. Finally verify that the Pairing has taken place and the AppHost shows in a <span style="color:green">Running</span> state within the admin settings of SOAR.
+
+6. Now you can deploy your apps just like you would in a non-air-gapped environment, with the caveat that you can't use anything that communicated outside of your air-gapped network.
