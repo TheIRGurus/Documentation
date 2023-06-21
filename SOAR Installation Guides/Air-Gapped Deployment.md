@@ -88,10 +88,10 @@ This guide is to be used for deploying IBM Security SOAR in an air-gapped enviro
         - 443:443
       environment:
         REGISTRY_HTTP_ADDR: 0.0.0.0:443
-        REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry.crt
-        REGISTRY_HTTP_TLS_KEY: /certs/registry.key
+        REGISTRY_HTTP_TLS_CERTIFICATE: certs/registry.crt
+        REGISTRY_HTTP_TLS_KEY: certs/registry.key
         REGISTRY_AUTH: htpasswd
-        REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+        REGISTRY_AUTH_HTPASSWD_PATH: auth/htpasswd
         REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
       tty: true
       stdin_open: true
