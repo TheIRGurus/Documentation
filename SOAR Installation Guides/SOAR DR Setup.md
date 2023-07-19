@@ -6,7 +6,7 @@ These are an interpretation of the official IBM documents found [here](https://w
 - Create second SOAR instance with same version as Primary/Production
   - Check SOAR version
     ```
-    sudo Resutil -v
+    sudo resutil -v
     ```
 - Resadmin password should be same on both systems
 - Make sure to have the optional packages from FixCentral (```soar-optional-packages-repo-<version>.run```)
@@ -51,9 +51,10 @@ Copy the soar-optional-packages-repo.run file to the /tmp directory
         scp <Path to file on local machine> resadmin@<SOAR IP/Hostname>:/tmp
         ```
 Install Optional package
-	```
-    sudo bash soar-optional-packages-repo.run
-    ```
+  ```
+  sudo bash soar-optional-packages-repo.run
+  ```
+
 Install the lsyncd package (this also installs rsync)
   ```
   sudo yum install lsyncd
@@ -342,3 +343,18 @@ Before you enable DR for the first time, or after you upgrade, complete a system
    ```
    - ```--extra-vars "skip_receiver_db_backup=true"``` reduces downtime by not backing up the receiver database.
    - You'll be prompted for the resadmin and vault passwords
+
+## Checking the status of the DR sync
+- Run the following on the primary appliance
+  - This binary gets installed when the enable_dr.yml playbook is ran. If it is not found, then there was an error in the playbook.
+  ```
+  sudo /usr/bin/resDrStatus
+  ```
+- Ensure the resilient-filesync service is running on the primary appliance. 
+  - If running correctly, the service is active and running the following process:
+    - ```/usr/bin/lsyncd -nodaemon /usr/share/co3/conf/lsyncd/lsyncd.conf.lua```
+
+  ```
+  sudo systemctl status resilient-filesync
+  ```
+- 
