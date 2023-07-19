@@ -84,12 +84,9 @@ If you need a license, please check the bookmarks in the [#soar_global_se](https
   - Example
     ```
     -----BEGIN LICENSE-----
-    AB+LCAAAAAAAAACFkMtKxUAMhl+lzNZi59rSAUHxioqchecB0rlgse2UyZTjUXx3p7iyLk
-    42gS/J/yf5ImBSHya8izC6Q4jvtxN0g7NEp7i4ksAMxv1FBrZgwRRGF1+yBNHk+nVX3A+h
-    g6F44AWnXBSkJG7ZTLmPuY+wmhPNGlrXStV0jZLMgJh3ya2k9YzxjoPgILlnraGtAAXWet
-    5I5WVWjjDZMObex+fdGM6ubp4+Dxcrd3PYxyEX3lKaUVeVtB1jtKWU2a5ujZS+BQnC1Q2n
-    QlmlT7ldrprnJgg8Yk6jllJUK8t2CIBEexgwH4fOLLFPx803F3T/QJx+33ZqOfL9AyFB7G
-    itAQAA:MCwCFEGjRtzCTP9o8gBMUV7dP13VBANaAhR0hIlfc05aPoQjkH5vAWZCSPZIGA=
+    AB+LCAAAAAA
+    ....
+    ANaAhR0hIlfc05aPoQjkH5vAWZCSPZIGA=
     =
     -----END LICENSE-----
     ```
