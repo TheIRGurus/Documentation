@@ -307,19 +307,13 @@ resilient-sdk codegen -p ./<package_name> --gather-results <path_to_app.config>
 ### Configuring the App and AppHost for Registry Use
 
 1. Log into a AppHost system.	
-2. Configure AppHost to use the private registries base URL (ex. ghcr.io)
+2. Configure AppHost to use the private registries base URL to YOUR registry not just the domain. (ex. ghcr.io/theirgurus)
 	```
 	sudo manageAppHost registry --registry <registry_url> --user <username>
 	```
 3. Restart the AppHost Box (I have found it easier to reboot vs restart services)
 	
 	><sub>This AppHost will no longer allow IBM Published apps, that is why it is recommended to have 2 AppHost systems.</sub>
-
-4. Alter the App JSON Files
-	- Open in notepad the app.json file in the root directory of the packaged app zip file.
-	- Under current_installation and executables, change the image value to the proper URI.
-	
-			ex. ibmresilient/fn_relations:1.0.1 -> <username>/ibmresilient/fn_relations:1.0.1
 
 
 ### Import the Private App into Resilient
